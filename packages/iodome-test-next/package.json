@@ -10,7 +10,7 @@
     "dev": "next dev --turbopack --port=3001",
     "lint": "next lint",
     "start": "next start",
-    "test": "vitest run && playwright test",
+    "test": "prisma generate && vitest run && playwright test",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:unit": "vitest"
@@ -46,11 +46,5 @@
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.2.3"
   },
-  "type": "module",
-  "pnpm": {
-    "overrides": {
-      "@types/react": "19.1.2",
-      "@types/react-dom": "19.1.2"
-    }
-  }
+  "type": "module"
 }
