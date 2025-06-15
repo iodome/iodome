@@ -16,15 +16,18 @@
   },
   "scripts": {
     "build": "tsup",
-    "lint": "tsc"
+    "lint": "tsc",
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "keywords": [],
   "author": "fundefined",
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^24.0.1",
+    "@vitest/ui": "^3.2.3",
     "tsup": "^8.5.0",
-    "typescript": "^5.8.3"
-  },
-  "dependencies": {}
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.3"
+  }
 }
