@@ -1,13 +1,10 @@
 import { describe, it, expect } from 'vitest';
 import { loadConfig } from './config.js';
-import path from 'path';
 
 describe('loadConfig', () => {
-  it('should throw error when config file does not exist', async () => {
-    const configPath = path.join(process.cwd(), 'iodome.config.ts');
-    
+  it('should throw error when no config file exists', async () => {
     await expect(loadConfig()).rejects.toThrow(
-      `Failed to load iodome.config.ts from ${configPath}`
+      'No iodome config file found. Create one of: iodome.config.ts, iodome.config.mts, iodome.config.mjs'
     );
   });
 
