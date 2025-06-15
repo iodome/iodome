@@ -1,4 +1,4 @@
-# iodome-test-next
+# iodome-app-nextjs-prisma
 
 ## 0.1.1
 

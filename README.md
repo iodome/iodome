@@ -18,7 +18,7 @@ This monorepo contains the following packages:
   integration for E2E testing with database isolation
 - **[@iodome/vitest](./packages/iodome-vitest/)** - Vitest integration for
   unit/integration testing with transaction isolation
-- **[iodome-test-next](./packages/iodome-test-next/)** - Example Next.js
+- **[iodome-app-nextjs-prisma](./packages/iodome-app-nextjs-prisma/)** - Example Next.js
   application demonstrating Iodome usage
 
 ## Key Features
@@ -54,7 +54,7 @@ setup instructions.
 
 ## Example Application
 
-The `packages/iodome-test-next` directory contains a full example Next.js
+The `packages/iodome-app-nextjs-prisma` directory contains a full example Next.js
 application with:
 
 - Authentication flows

@@ -9,7 +9,7 @@ export default async function AuthenticatedLayout({
   return (
     <>
       <header className="flex justify-between items-center gap-4 p-8 bg-white border-b">
-        <Link href="/">iodome-test-next</Link>
+        <Link href="/">iodome-app-nextjs-prisma</Link>
         <nav>
           <ul className="flex gap-4">
             <>
