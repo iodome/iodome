@@ -1,6 +1,9 @@
 {
   "name": "@iodome/playwright",
-  "version": "0.0.0",
+  "version": "0.1.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "description": "",
   "type": "module",
   "main": "dist/index.js",
@@ -21,8 +24,7 @@
   "devDependencies": {
     "@prisma/client": "6.9.0",
     "@types/node": "^24.0.1",
-    "tsup": "^8.5.0",
-    "typescript": "^5.8.3"
+    "tsup": "^8.5.0"
   },
   "dependencies": {},
   "peerDependencies": {
