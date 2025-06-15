@@ -1,18 +1,25 @@
 # iodome
 
-A testing framework for Next.js applications that provides transactional test isolation using Playwright and Vitest.
+A testing framework for Next.js applications that provides transactional test
+isolation using Playwright and Vitest.
 
 ## Overview
 
-Iodome enables isolated testing for full-stack Next.js applications by providing transactional test wrappers that automatically rollback database changes after each test. This ensures tests run in complete isolation without affecting your development database.
+iodome enables isolated testing for full-stack Next.js applications by providing
+transactional test wrappers that automatically rollback database changes after
+each test. This ensures tests run in complete isolation without affecting your
+development database.
 
 ## Packages
 
 This monorepo contains the following packages:
 
-- **[@iodome/playwright](./packages/iodome-playwright/)** - Playwright integration for E2E testing with database isolation
-- **[@iodome/vitest](./packages/iodome-vitest/)** - Vitest integration for unit/integration testing with transaction isolation
-- **[iodome-test-next](./packages/iodome-test-next/)** - Example Next.js application demonstrating Iodome usage
+- **[@iodome/playwright](./packages/iodome-playwright/)** - Playwright
+  integration for E2E testing with database isolation
+- **[@iodome/vitest](./packages/iodome-vitest/)** - Vitest integration for
+  unit/integration testing with transaction isolation
+- **[iodome-test-next](./packages/iodome-test-next/)** - Example Next.js
+  application demonstrating Iodome usage
 
 ## Key Features
 
@@ -25,35 +32,30 @@ This monorepo contains the following packages:
 
 ## Installation
 
-```bash
-# Install dependencies
-pnpm install
+````bash # Install dependencies pnpm install
 
-# Build packages
-pnpm build
-```
+# Build packages pnpm build ```
 
 ## Quick Start
 
 ### For E2E Testing with Playwright
 
-```bash
-npm install @iodome/playwright @playwright/test @prisma/client
-```
+```bash npm install @iodome/playwright @playwright/test @prisma/client ```
 
-See the [@iodome/playwright documentation](./packages/iodome-playwright/) for complete setup instructions.
+See the [@iodome/playwright documentation](./packages/iodome-playwright/) for
+complete setup instructions.
 
 ### For Unit Testing with Vitest
 
-```bash
-npm install @iodome/vitest vitest @prisma/client
-```
+```bash npm install @iodome/vitest vitest @prisma/client ```
 
-See the [@iodome/vitest documentation](./packages/iodome-vitest/) for complete setup instructions.
+See the [@iodome/vitest documentation](./packages/iodome-vitest/) for complete
+setup instructions.
 
 ## Example Application
 
-The `packages/iodome-test-next` directory contains a full example Next.js application with:
+The `packages/iodome-test-next` directory contains a full example Next.js
+application with:
 
 - Authentication flows
 - Article CRUD operations
@@ -72,3 +74,4 @@ This project uses:
 ## License
 
 MIT
+````
