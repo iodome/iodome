@@ -1,6 +1,6 @@
+import { existsSync } from "fs";
 import path from "path";
 import { pathToFileURL } from "url";
-import { existsSync } from "fs";
 import { IodomeConfig } from "./types";
 
 let cachedConfig: IodomeConfig | null = null;
@@ -13,7 +13,7 @@ export async function loadConfig(): Promise<IodomeConfig> {
   const configFiles = [
     "iodome.config.ts",
     "iodome.config.mts",
-    "iodome.config.mjs"
+    "iodome.config.mjs",
   ];
 
   let configPath: string | null = null;
@@ -27,7 +27,7 @@ export async function loadConfig(): Promise<IodomeConfig> {
 
   if (!configPath) {
     throw new Error(
-      `No iodome config file found. Create one of: ${configFiles.join(', ')}`
+      `No iodome config file found. Create one of: ${configFiles.join(", ")}`,
     );
   }
 
@@ -38,7 +38,7 @@ export async function loadConfig(): Promise<IodomeConfig> {
     return cachedConfig!;
   } catch (error) {
     throw new Error(
-      `Failed to load ${path.basename(configPath)} from ${configPath}. Make sure the file exists and exports a valid configuration object.`
+      `Failed to load ${path.basename(configPath)} from ${configPath}. Make sure the file exists and exports a valid configuration object.`,
     );
   }
 }
