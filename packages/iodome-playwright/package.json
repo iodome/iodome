@@ -1,0 +1,32 @@
+{
+  "name": "@iodome/playwright",
+  "version": "0.0.0",
+  "description": "",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "lint": "tsc"
+  },
+  "keywords": [],
+  "author": "fundefined",
+  "license": "MIT",
+  "devDependencies": {
+    "@prisma/client": "6.9.0",
+    "@types/node": "^24.0.1",
+    "tsup": "^8.5.0",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {},
+  "peerDependencies": {
+    "@playwright/test": "1.53.0",
+    "@prisma/client": "^6.3.1"
+  }
+}
