@@ -10,9 +10,9 @@ Iodome enables isolated testing for full-stack Next.js applications by providing
 
 This monorepo contains the following packages:
 
-- **@iodome/playwright** - Playwright test fixtures and utilities for E2E testing with transaction isolation
-- **@iodome/vitest** - Vitest setup for unit/integration testing with transaction support
-- **iodome-test-next** - Example Next.js application demonstrating Iodome usage
+- **[@iodome/playwright](./packages/iodome-playwright/)** - Playwright integration for E2E testing with database isolation
+- **[@iodome/vitest](./packages/iodome-vitest/)** - Vitest integration for unit/integration testing with transaction isolation
+- **[iodome-test-next](./packages/iodome-test-next/)** - Example Next.js application demonstrating Iodome usage
 
 ## Key Features
 
@@ -33,26 +33,23 @@ pnpm install
 pnpm build
 ```
 
-## Usage
+## Quick Start
 
-### Playwright E2E Tests
+### For E2E Testing with Playwright
 
-```typescript
-import { test, expect } from '@iodome/playwright';
-
-test('creates a new article', async ({ page }) => {
-  // Your test code here - all database changes will be rolled back
-});
+```bash
+npm install @iodome/playwright @playwright/test @prisma/client
 ```
 
-### Vitest Unit Tests
+See the [@iodome/playwright documentation](./packages/iodome-playwright/) for complete setup instructions.
 
-```typescript
-import { setupTransactionalVitest } from '@iodome/vitest';
+### For Unit Testing with Vitest
 
-// Setup in your vitest config
-setupTransactionalVitest(prisma);
+```bash
+npm install @iodome/vitest vitest @prisma/client
 ```
+
+See the [@iodome/vitest documentation](./packages/iodome-vitest/) for complete setup instructions.
 
 ## Example Application
 
