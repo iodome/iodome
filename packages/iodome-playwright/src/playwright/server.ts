@@ -1,5 +1,6 @@
 import { execSync, spawn } from "child_process";
 import http from "http";
+import * as net from "net";
 import { loadConfig } from "../config";
 
 export default class TestServer {
@@ -9,13 +10,14 @@ export default class TestServer {
 
   constructor(id: string) {
     this.id = id.replace("-", "_");
-    this.port = Math.floor(Math.random() * (39999 - 30001 + 1)) + 30001;
+    this.port = 0;
     this.dbName = "";
   }
 
   async setup() {
     const config = await loadConfig();
     this.dbName = `${config.applicationName}_test`;
+    this.port = await this.getFreePort();
     this.setupDb();
     spawn("pnpm", ["start"], {
       env: {
@@ -35,6 +37,21 @@ export default class TestServer {
 
   private get name() {
     return `${this.dbName}_${this.id}`;
+  }
+
+  private async getFreePort(): Promise<number> {
+    return new Promise((resolve, reject) => {
+      const server = net.createServer();
+      server.listen(0, () => {
+        const address = server.address();
+        server.close();
+        if (address && typeof address === "object") {
+          resolve(address.port);
+        } else {
+          reject(new Error("Failed to acquire free port"));
+        }
+      });
+    });
   }
 
   private setupDb() {
@@ -69,7 +86,7 @@ export default class TestServer {
       const retry = () => {
         if (Date.now() - start > timeout) {
           reject(
-            new Error("Server did not become ready within the timeout period.")
+            new Error("Server did not become ready within the timeout period."),
           );
         } else {
           setTimeout(check, 100);
