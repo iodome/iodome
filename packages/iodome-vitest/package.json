@@ -27,7 +27,9 @@
     "tsup": "^8.5.0",
     "typescript": "^5.8.3"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@iodome/core": "workspace:^"
+  },
   "peerDependencies": {
     "@prisma/client": "^6.3.1",
     "vitest": "^3.2.3"

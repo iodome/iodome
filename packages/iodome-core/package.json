@@ -1,13 +1,13 @@
 {
-  "name": "@iodome/playwright",
+  "name": "@iodome/core",
   "version": "0.1.0",
-  "publishConfig": {
-    "access": "public"
-  },
   "description": "",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
   "exports": {
     ".": {
       "import": "./dist/index.js",
@@ -22,15 +22,9 @@
   "author": "fundefined",
   "license": "MIT",
   "devDependencies": {
-    "@prisma/client": "6.9.0",
     "@types/node": "^24.0.1",
-    "tsup": "^8.5.0"
+    "tsup": "^8.5.0",
+    "typescript": "^5.8.3"
   },
-  "dependencies": {
-    "@iodome/core": "workspace:^"
-  },
-  "peerDependencies": {
-    "@playwright/test": "1.53.0",
-    "@prisma/client": "^6.3.1"
-  }
+  "dependencies": {}
 }

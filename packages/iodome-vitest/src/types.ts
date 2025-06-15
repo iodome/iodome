@@ -1,3 +1,1 @@
-export interface IodomeConfig {
-  applicationName: string;
-}
+export { IodomeConfig } from "@iodome/core";
