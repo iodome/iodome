@@ -1,7 +1,7 @@
 import { execSync, spawn } from "child_process";
 import http from "http";
 import * as net from "net";
-import { loadConfig } from "../config";
+import { loadConfig } from "./config";
 
 export default class TestServer {
   public id: string;

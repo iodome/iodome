@@ -1,4 +1,5 @@
 // src/config.ts
+import { existsSync } from "fs";
 import path from "path";
 import { pathToFileURL } from "url";
 var cachedConfig = null;
@@ -6,7 +7,24 @@ async function loadConfig() {
   if (cachedConfig) {
     return cachedConfig;
   }
-  const configPath = path.join(process.cwd(), "iodome.config.ts");
+  const configFiles = [
+    "iodome.config.ts",
+    "iodome.config.mts",
+    "iodome.config.mjs"
+  ];
+  let configPath = null;
+  for (const filename of configFiles) {
+    const filePath = path.join(process.cwd(), filename);
+    if (existsSync(filePath)) {
+      configPath = filePath;
+      break;
+    }
+  }
+  if (!configPath) {
+    throw new Error(
+      `No iodome config file found. Create one of: ${configFiles.join(", ")}`
+    );
+  }
   try {
     const configUrl = pathToFileURL(configPath).href;
     const configModule = await import(configUrl);
@@ -14,7 +32,7 @@ async function loadConfig() {
     return cachedConfig;
   } catch (error) {
     throw new Error(
-      `Failed to load iodome.config.ts from ${configPath}. Make sure the file exists and exports a valid configuration object.`
+      `Failed to load ${path.basename(configPath)} from ${configPath}. Make sure the file exists and exports a valid configuration object.`
     );
   }
 }

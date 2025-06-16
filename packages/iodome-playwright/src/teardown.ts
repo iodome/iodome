@@ -1,5 +1,5 @@
 import { execSync } from "child_process";
-import { loadConfig } from "../config";
+import { loadConfig } from "./config";
 
 async function dropDatabasesStartingWith(prefix: string, appName: string) {
   const result = execSync(
@@ -10,7 +10,7 @@ async function dropDatabasesStartingWith(prefix: string, appName: string) {
 			WHERE datname LIKE '${prefix}%';
 		"
 	`,
-    { encoding: "utf-8" }
+    { encoding: "utf-8" },
   );
 
   const databases = result
@@ -35,6 +35,6 @@ export default async function globalTeardown() {
   const config = await loadConfig();
   await dropDatabasesStartingWith(
     `${config.applicationName}_test_`,
-    config.applicationName
+    config.applicationName,
   );
 }

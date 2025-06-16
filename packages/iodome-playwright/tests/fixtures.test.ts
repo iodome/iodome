@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { test } from "./fixtures.js";
+import { test } from "../src/fixtures";
 
 vi.mock("@playwright/test", () => ({
   test: {

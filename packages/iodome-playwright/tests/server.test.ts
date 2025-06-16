@@ -1,7 +1,7 @@
 import * as child_process from "child_process";
 import { execSync } from "child_process";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import TestServer from "./server.js";
+import TestServer from "../src/server";
 
 vi.mock("child_process", () => ({
   execSync: vi.fn(),
@@ -15,7 +15,7 @@ vi.mock("http", () => ({
     get: vi.fn(),
   },
 }));
-vi.mock("../config.js", () => ({
+vi.mock("../src/config", () => ({
   loadConfig: vi.fn().mockResolvedValue({ applicationName: "test-app" }),
 }));
 

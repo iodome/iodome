@@ -1,24 +1,26 @@
-// src/playwright/fixtures.ts
+// src/fixtures.ts
 import { test as base } from "@playwright/test";
 import { PrismaClient } from "@prisma/client";
 
-// src/playwright/server.ts
+// src/server.ts
 import { execSync, spawn } from "child_process";
 import http from "http";
+import * as net from "net";
 
 // src/config.ts
 import { loadConfig } from "@iodome/core";
 
-// src/playwright/server.ts
+// src/server.ts
 var TestServer = class {
   constructor(id) {
     this.id = id.replace("-", "_");
-    this.port = Math.floor(Math.random() * (39999 - 30001 + 1)) + 30001;
+    this.port = 0;
     this.dbName = "";
   }
   async setup() {
     const config = await loadConfig();
     this.dbName = `${config.applicationName}_test`;
+    this.port = await this.getFreePort();
     this.setupDb();
     spawn("pnpm", ["start"], {
       env: {
@@ -36,6 +38,20 @@ var TestServer = class {
   }
   get name() {
     return `${this.dbName}_${this.id}`;
+  }
+  async getFreePort() {
+    return new Promise((resolve, reject) => {
+      const server = net.createServer();
+      server.listen(0, () => {
+        const address = server.address();
+        server.close();
+        if (address && typeof address === "object") {
+          resolve(address.port);
+        } else {
+          reject(new Error("Failed to acquire free port"));
+        }
+      });
+    });
   }
   setupDb() {
     execSync(`
@@ -77,7 +93,7 @@ var TestServer = class {
   }
 };
 
-// src/playwright/fixtures.ts
+// src/fixtures.ts
 import { expect } from "@playwright/test";
 function url(testId) {
   const id = testId.replace("-", "_");
@@ -106,7 +122,7 @@ var test = base.extend({
   ]
 });
 
-// src/playwright/setup.ts
+// src/setup.ts
 import { execSync as execSync2 } from "child_process";
 function globalSetup() {
   console.log("playwright testing...");
@@ -116,7 +132,7 @@ function globalSetup() {
 }
 var setup_default = globalSetup;
 
-// src/playwright/teardown.ts
+// src/teardown.ts
 import { execSync as execSync3 } from "child_process";
 async function dropDatabasesStartingWith(prefix, appName) {
   const result = execSync3(

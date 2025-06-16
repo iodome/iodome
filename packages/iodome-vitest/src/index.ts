@@ -1,2 +1,2 @@
-import setupTransactionalVitest from "./vitest/setup";
+import setupTransactionalVitest from "./setup";
 export { setupTransactionalVitest };

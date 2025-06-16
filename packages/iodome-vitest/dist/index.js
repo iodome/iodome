@@ -1,4 +1,4 @@
-// src/vitest/setup.ts
+// src/setup.ts
 import { afterEach, beforeEach } from "vitest";
 function setupTransactionalVitest(prisma) {
   beforeEach(async () => {
