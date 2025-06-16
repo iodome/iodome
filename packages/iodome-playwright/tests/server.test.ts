@@ -41,7 +41,7 @@ describe("TestServer", () => {
   });
 
   describe("setup", () => {
-    it("should setup database and start server", async () => {
+    it("should setup database and start dev server", async () => {
       const server = new TestServer("test-123");
 
       server["waitForServerReady"] = vi.fn().mockResolvedValue(undefined);
@@ -52,7 +52,7 @@ describe("TestServer", () => {
       expect(execSync).toHaveBeenCalledTimes(4); // setupDb calls
       expect(child_process.spawn).toHaveBeenCalledWith(
         "pnpm",
-        ["start"],
+        ["dev"],
         expect.any(Object),
       );
     });

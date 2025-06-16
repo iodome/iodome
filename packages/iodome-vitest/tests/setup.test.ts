@@ -1,6 +1,5 @@
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
-// Mock vitest hooks
 const mockBeforeEach = vi.fn();
 const mockAfterEach = vi.fn();
 

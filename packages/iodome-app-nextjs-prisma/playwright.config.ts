@@ -22,8 +22,7 @@ export default defineConfig({
   use: {
     trace: "on-first-retry",
   },
-  globalSetup: "./tests/setup.ts",
-  globalTeardown: "./tests/teardown.ts",
+  globalTeardown: "./node_modules/@iodome/playwright/src/teardown.ts",
   projects: [
     {
       name: "chromium",

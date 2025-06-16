@@ -19,7 +19,7 @@ export default class TestServer {
     this.dbName = `${config.applicationName}_test`;
     this.port = await this.getFreePort();
     this.setupDb();
-    spawn("pnpm", ["start"], {
+    spawn("pnpm", ["dev"], {
       env: {
         ...process.env,
         DATABASE_URL: this.url,
@@ -67,13 +67,14 @@ export default class TestServer {
     execSync(`DATABASE_URL=${this.url} pnpm prisma db push --accept-data-loss`);
   }
 
-  private async waitForServerReady(timeout = 30000) {
+  private async waitForServerReady(timeout = 60000) {
     const start = Date.now();
 
     return new Promise<void>((resolve, reject) => {
       const check = () => {
         const req = http.get(`http://127.0.0.1:${this.port}`, (res) => {
-          if (res.statusCode === 200) {
+          // Dev servers may return various status codes during startup
+          if (res.statusCode && res.statusCode < 500) {
             resolve();
           } else {
             retry();
@@ -86,7 +87,9 @@ export default class TestServer {
       const retry = () => {
         if (Date.now() - start > timeout) {
           reject(
-            new Error("Server did not become ready within the timeout period."),
+            new Error(
+              "Dev server did not become ready within the timeout period.",
+            ),
           );
         } else {
           setTimeout(check, 100);
