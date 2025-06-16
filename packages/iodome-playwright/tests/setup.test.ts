@@ -2,7 +2,6 @@ import { execSync } from "child_process";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import globalSetup from "../src/setup";
 
-// Mock child_process
 vi.mock("child_process", () => ({
   execSync: vi.fn(),
 }));
