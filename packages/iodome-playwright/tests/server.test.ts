@@ -50,11 +50,19 @@ describe("TestServer", () => {
 
       expect(server.dbName).toBe("test-app_test");
       expect(execSync).toHaveBeenCalledTimes(4); // setupDb calls
-      expect(child_process.spawn).toHaveBeenCalledWith(
-        "pnpm",
-        ["dev"],
-        expect.any(Object),
-      );
+      if (process.env.CI) {
+        expect(child_process.spawn).toHaveBeenCalledWith(
+          "pnpm",
+          ["start"],
+          expect.any(Object),
+        );
+      } else {
+        expect(child_process.spawn).toHaveBeenCalledWith(
+          "pnpm",
+          ["dev"],
+          expect.any(Object),
+        );
+      }
     });
   });
 

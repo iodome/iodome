@@ -7,11 +7,13 @@ export default class TestServer {
   public id: string;
   public port: number;
   public dbName: string;
+  public cmd: string;
 
   constructor(id: string) {
     this.id = id.replace("-", "_");
     this.port = 0;
     this.dbName = "";
+    this.cmd = process.env.CI ? "start" : "dev";
   }
 
   async setup() {
@@ -19,7 +21,7 @@ export default class TestServer {
     this.dbName = `${config.applicationName}_test`;
     this.port = await this.getFreePort();
     this.setupDb();
-    spawn("pnpm", ["dev"], {
+    spawn("pnpm", [this.cmd], {
       env: {
         ...process.env,
         DATABASE_URL: this.url,

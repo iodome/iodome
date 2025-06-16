@@ -22,6 +22,9 @@ export default defineConfig({
   use: {
     trace: "on-first-retry",
   },
+  globalSetup: process.env.CI
+    ? "./node_modules/@iodome/playwright/src/setup.ts"
+    : "",
   globalTeardown: "./node_modules/@iodome/playwright/src/teardown.ts",
   projects: [
     {
