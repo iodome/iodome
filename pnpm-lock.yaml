@@ -12,57 +12,14 @@ importers:
         specifier: ^2.29.4
         version: 2.29.4
 
-  packages/iodome-core:
-    devDependencies:
-      '@types/node':
-        specifier: ^24.0.1
-        version: 24.0.1
-      '@vitest/ui':
-        specifier: ^3.2.3
-        version: 3.2.3(vitest@3.2.3)
-      tsup:
-        specifier: ^8.5.0
-        version: 8.5.0(jiti@2.4.2)(postcss@8.5.5)(typescript@5.8.3)(yaml@2.8.0)
-      typescript:
-        specifier: ^5.8.3
-        version: 5.8.3
-      vitest:
-        specifier: ^3.2.3
-        version: 3.2.3(@types/node@24.0.1)(@vitest/ui@3.2.3)(jiti@2.4.2)(jsdom@26.1.0)(yaml@2.8.0)
-
-  packages/iodome-playwright:
-    dependencies:
-      '@iodome/core':
-        specifier: workspace:^
-        version: link:../iodome-core
-      '@playwright/test':
-        specifier: 1.53.0
-        version: 1.53.0
-    devDependencies:
-      '@prisma/client':
-        specifier: 6.9.0
-        version: 6.9.0(prisma@6.9.0(typescript@5.8.3))(typescript@5.8.3)
-      '@types/node':
-        specifier: ^24.0.1
-        version: 24.0.1
-      '@vitest/ui':
-        specifier: ^3.2.3
-        version: 3.2.3(vitest@3.2.3)
-      tsup:
-        specifier: ^8.5.0
-        version: 8.5.0(jiti@2.4.2)(postcss@8.5.5)(typescript@5.8.3)(yaml@2.8.0)
-      vitest:
-        specifier: ^3.2.3
-        version: 3.2.3(@types/node@24.0.1)(@vitest/ui@3.2.3)(jiti@2.4.2)(jsdom@26.1.0)(yaml@2.8.0)
-
-  packages/iodome-test-next:
+  apps/iodome-app-nextjs-prisma:
     dependencies:
       '@iodome/playwright':
         specifier: workspace:*
-        version: link:../iodome-playwright
+        version: link:../../packages/iodome-playwright
       '@iodome/vitest':
         specifier: workspace:*
-        version: link:../iodome-vitest
+        version: link:../../packages/iodome-vitest
       bcrypt:
         specifier: ^5.1.1
         version: 5.1.1
@@ -139,6 +96,49 @@ importers:
       vitest:
         specifier: ^3.2.3
         version: 3.2.3(@types/node@22.15.31)(@vitest/ui@3.2.3)(jiti@2.4.2)(jsdom@26.1.0)(yaml@2.8.0)
+
+  packages/iodome-core:
+    devDependencies:
+      '@types/node':
+        specifier: ^24.0.1
+        version: 24.0.1
+      '@vitest/ui':
+        specifier: ^3.2.3
+        version: 3.2.3(vitest@3.2.3)
+      tsup:
+        specifier: ^8.5.0
+        version: 8.5.0(jiti@2.4.2)(postcss@8.5.5)(typescript@5.8.3)(yaml@2.8.0)
+      typescript:
+        specifier: ^5.8.3
+        version: 5.8.3
+      vitest:
+        specifier: ^3.2.3
+        version: 3.2.3(@types/node@24.0.1)(@vitest/ui@3.2.3)(jiti@2.4.2)(jsdom@26.1.0)(yaml@2.8.0)
+
+  packages/iodome-playwright:
+    dependencies:
+      '@iodome/core':
+        specifier: workspace:^
+        version: link:../iodome-core
+      '@playwright/test':
+        specifier: 1.53.0
+        version: 1.53.0
+    devDependencies:
+      '@prisma/client':
+        specifier: 6.9.0
+        version: 6.9.0(prisma@6.9.0(typescript@5.8.3))(typescript@5.8.3)
+      '@types/node':
+        specifier: ^24.0.1
+        version: 24.0.1
+      '@vitest/ui':
+        specifier: ^3.2.3
+        version: 3.2.3(vitest@3.2.3)
+      tsup:
+        specifier: ^8.5.0
+        version: 8.5.0(jiti@2.4.2)(postcss@8.5.5)(typescript@5.8.3)(yaml@2.8.0)
+      vitest:
+        specifier: ^3.2.3
+        version: 3.2.3(@types/node@24.0.1)(@vitest/ui@3.2.3)(jiti@2.4.2)(jsdom@26.1.0)(yaml@2.8.0)
 
   packages/iodome-vitest:
     dependencies:
