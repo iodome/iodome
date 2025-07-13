@@ -31,5 +31,8 @@
     "@playwright/test": {
       "optional": true
     }
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
