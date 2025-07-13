@@ -1,5 +1,11 @@
 # @iodome/prisma
 
+## 0.3.1
+
+### Patch Changes
+
+- 513e13d: Fix imports
+
 ## 0.3.0
 
 ### Minor Changes
