@@ -1,4 +1,4 @@
 import { PrismaClient } from "@/app/generated/prisma";
-import { createTestFixtures } from "@iodome/prisma/playwright";
+import { createTestFixtures } from "@iodome/prisma";
 
 export const test = createTestFixtures(PrismaClient);

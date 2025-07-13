@@ -345,6 +345,35 @@ function createTestFixtures(PrismaClientConstructor) {
   });
 }
 
+// src/playwright/setup.ts
+function createTemplateDatabase() {
+  try {
+    if (!PostgresClient.checkIfPostgresExists()) {
+      Logger.log("PostgreSQL not available, skipping template creation");
+      return;
+    }
+    Logger.log("PostgreSQL detected, proceeding with template creation");
+    const templateName = getTemplateDbName();
+    Logger.log(`Creating template database: ${templateName}`);
+    Logger.log(`Checking if template database ${templateName} already exists`);
+    let templateExists = false;
+    try {
+      templateExists = PostgresClient.checkIfTemplateExists(templateName);
+    } catch (e) {
+      templateExists = false;
+      Logger.log("Template existence check failed:", e);
+    }
+    if (templateExists) {
+      Logger.log(`Template database already exists: ${templateName}`);
+      return;
+    }
+    const templateUrl = `postgresql://postgres:postgres@localhost:5432/${templateName}?schema=public`;
+    PostgresClient.createDatabase(templateName, templateUrl);
+  } catch (e) {
+    console.warn("Failed to create template database:", e);
+  }
+}
+
 // src/playwright/teardown.ts
 async function dropDatabases() {
   const result = PostgresClient.dropIodomeDatabases();
@@ -366,6 +395,7 @@ function useTransactions(prisma) {
   });
 }
 export {
+  createTemplateDatabase,
   createTestFixtures,
   dropDatabases,
   useTransactions

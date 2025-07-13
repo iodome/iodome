@@ -1,6 +1,6 @@
 import { afterEach, beforeEach } from "vitest";
 
-export default function useTransactions<
+function useTransactions<
   T extends { $queryRaw: (query: TemplateStringsArray) => Promise<any> }
 >(prisma: T) {
   beforeEach(async () => {
@@ -11,3 +11,5 @@ export default function useTransactions<
     await prisma.$queryRaw`ROLLBACK;`;
   });
 }
+
+export { useTransactions };
