@@ -5,17 +5,23 @@
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "files": [
-    "dist",
-    "src"
-  ],
   "exports": {
     ".": {
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
-    "./src/playwright": "./src/playwright/index.ts"
+    "./playwright": {
+      "import": "./dist/playwright/index.js",
+      "types": "./dist/playwright/index.d.ts"
+    },
+    "./vitest": {
+      "import": "./dist/vitest/index.js",
+      "types": "./dist/vitest/index.d.ts"
+    }
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsup"
@@ -25,15 +31,16 @@
   "license": "MIT",
   "packageManager": "pnpm@10.12.4",
   "devDependencies": {
-    "@prisma/client": "^6.11.1",
     "@playwright/test": "^1.54.1",
+    "@prisma/client": "^6.11.1",
+    "@types/node": "^20.19.7",
     "tsup": "^8.5.0",
     "typescript": "^5.8.3",
     "vitest": "^3.2.4"
   },
   "peerDependencies": {
-    "@prisma/client": "^6.11.1",
     "@playwright/test": "^1.54.1",
+    "@prisma/client": "^6.11.1",
     "vitest": "^3.2.4"
   },
   "peerDependenciesMeta": {

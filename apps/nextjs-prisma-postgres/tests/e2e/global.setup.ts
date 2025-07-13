@@ -1,4 +1,4 @@
-import { createTemplateDatabase } from "@iodome/prisma/src/playwright";
+import { createTemplateDatabase } from "@iodome/prisma/playwright";
 import { execSync } from "child_process";
 
 export default async function globalTeardown() {
