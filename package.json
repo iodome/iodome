@@ -1,0 +1,19 @@
+{
+  "name": "iodome",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "pnpm -r build",
+    "test": "pnpm -r test",
+    "test:e2e": "pnpm -r test:e2e"
+  },
+  "keywords": [],
+  "author": "Michael (fundefined)",
+  "license": "ISC",
+  "packageManager": "pnpm@10.12.4",
+  "devDependencies": {
+    "@changesets/cli": "^2.29.5",
+    "eslint": "^9.31.0"
+  }
+}

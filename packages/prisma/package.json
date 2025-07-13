@@ -1,0 +1,35 @@
+{
+  "name": "@iodome/prisma",
+  "version": "0.0.1",
+  "description": "",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsup"
+  },
+  "keywords": [],
+  "author": "Michael (fundefined)",
+  "license": "ISC",
+  "packageManager": "pnpm@10.12.4",
+  "devDependencies": {
+    "@prisma/client": "^6.11.1",
+    "@playwright/test": "^1.54.1",
+    "tsup": "^8.5.0",
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.4"
+  },
+  "peerDependencies": {
+    "@prisma/client": "^6.11.1",
+    "@playwright/test": "^1.54.1",
+    "vitest": "^3.2.4"
+  },
+  "peerDependenciesMeta": {
+    "vitest": {
+      "optional": true
+    },
+    "@playwright/test": {
+      "optional": true
+    }
+  }
+}
