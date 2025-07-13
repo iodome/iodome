@@ -29,10 +29,11 @@ function createTemplateDatabase() {
     }
 
     const templateName = getTemplateDbName();
-    console.log(`Creating template database: ${templateName}`);
-
     if (process.env.DEBUG_IODOME) {
-      console.log(`Checking if template database ${templateName} already exists`);
+      console.log(`Creating template database: ${templateName}`);
+      console.log(
+        `Checking if template database ${templateName} already exists`
+      );
     }
 
     // Check if template already exists
@@ -44,12 +45,14 @@ function createTemplateDatabase() {
       )
         .toString()
         .trim();
-      
+
       // PostgreSQL returns "1" if database exists, empty string if not
       templateExists = result.includes("1");
-      
+
       if (process.env.DEBUG_IODOME) {
-        console.log(`Template existence check result: "${result}", exists: ${templateExists}`);
+        console.log(
+          `Template existence check result: "${result}", exists: ${templateExists}`
+        );
       }
     } catch (e) {
       templateExists = false;
@@ -59,7 +62,9 @@ function createTemplateDatabase() {
     }
 
     if (templateExists) {
-      console.log(`Template database already exists: ${templateName}`);
+      if (process.env.DEBUG_IODOME) {
+        console.log(`Template database already exists: ${templateName}`);
+      }
       return;
     }
 
@@ -85,9 +90,8 @@ function createTemplateDatabase() {
 
     if (process.env.DEBUG_IODOME) {
       console.log(`Schema applied to template database ${templateName}`);
+      console.log(`Template database ready: ${templateName}`);
     }
-
-    console.log(`Template database ready: ${templateName}`);
   } catch (e) {
     console.warn("Failed to create template database:", e);
     // Not a fatal error, tests will fall back to regular setup

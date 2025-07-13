@@ -18,7 +18,7 @@ export default class TestServer {
     this.id = id.replace("-", "_");
     this.port = 0;
     this.dbName = "iodome_test";
-    this.cmd = process.env.CI ? "start" : "dev";
+    this.cmd = process.env.CI || process.env.IODOME_BUILD ? "start" : "dev";
     TestServer.instances.add(this);
     this.setupGlobalCleanup();
   }
@@ -181,7 +181,6 @@ export default class TestServer {
     }
   }
 
-
   private async setupDb() {
     this.log(`Creating test database: ${this.name}`);
 
@@ -206,7 +205,9 @@ export default class TestServer {
     const hasTemplate = TestServer.checkTemplateExists();
 
     if (process.env.DEBUG_IODOME) {
-      this.log(`Template exists: ${hasTemplate}, template name: ${TestServer.templateDbName}`);
+      this.log(
+        `Template exists: ${hasTemplate}, template name: ${TestServer.templateDbName}`
+      );
     }
 
     if (hasTemplate && TestServer.templateDbName) {
