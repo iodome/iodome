@@ -12,7 +12,7 @@
   },
   "keywords": [],
   "author": "Michael (fundefined)",
-  "license": "ISC",
+  "license": "MIT",
   "packageManager": "pnpm@10.12.4",
   "devDependencies": {
     "@changesets/cli": "^2.29.5",

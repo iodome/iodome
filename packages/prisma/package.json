@@ -10,7 +10,7 @@
   },
   "keywords": [],
   "author": "Michael (fundefined)",
-  "license": "ISC",
+  "license": "MIT",
   "packageManager": "pnpm@10.12.4",
   "devDependencies": {
     "@prisma/client": "^6.11.1",
