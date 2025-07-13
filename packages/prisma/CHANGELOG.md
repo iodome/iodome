@@ -1,5 +1,11 @@
 # @iodome/prisma
 
+## 0.3.3
+
+### Patch Changes
+
+- e1b86ea: Global exports
+
 ## 0.3.2
 
 ### Patch Changes
