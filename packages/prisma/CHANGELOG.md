@@ -1,5 +1,11 @@
 # @iodome/prisma
 
+## 0.2.0
+
+### Minor Changes
+
+- Fix exports
+
 ## 0.1.0
 
 ### Minor Changes
