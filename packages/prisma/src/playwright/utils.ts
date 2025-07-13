@@ -1,6 +1,7 @@
 import { createHash } from "crypto";
 import { readFileSync } from "fs";
 import * as path from "path";
+import PostgresClient from "../utils/postgres-client";
 
 export function getSchemaPath(): string {
   // Check for --schema flag in process args
@@ -29,16 +30,5 @@ export function getTemplateDbName(): string {
     return `iodome_tpl_${hash}`;
   } catch (e) {
     return `iodome_tpl_default`;
-  }
-}
-
-export function isPostgres(): boolean {
-  try {
-    // Try to connect to PostgreSQL directly
-    const { execSync } = require("child_process");
-    execSync("psql -U postgres -c 'SELECT 1'", { stdio: "ignore" });
-    return true;
-  } catch (e) {
-    return false;
   }
 }

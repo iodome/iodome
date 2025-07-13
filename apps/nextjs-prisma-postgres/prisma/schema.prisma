@@ -18,6 +18,7 @@ model Course {
   id          Int      @id @default(autoincrement())
   name        String   @unique
   description String
+  published   Boolean? @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 

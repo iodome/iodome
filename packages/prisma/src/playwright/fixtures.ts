@@ -1,5 +1,5 @@
 import { test as base, TestInfo } from "@playwright/test";
-import TestServer from "./server";
+import TestServer from "../utils/server";
 
 function url(testId: string): string {
   const id = testId.replace("-", "_");
