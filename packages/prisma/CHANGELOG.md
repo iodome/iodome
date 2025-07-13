@@ -1,5 +1,11 @@
 # @iodome/prisma
 
+## 0.3.2
+
+### Patch Changes
+
+- 840d595: Fix tsup config
+
 ## 0.3.1
 
 ### Patch Changes
