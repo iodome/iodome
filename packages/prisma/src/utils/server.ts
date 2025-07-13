@@ -1,6 +1,9 @@
 import { ChildProcess, execSync, spawn } from "child_process";
 import http from "http";
 import * as net from "net";
+import { getTemplateDbName } from "../playwright/utils";
+import Logger from "./logger";
+import PostgresClient from "./postgres-client";
 
 export default class TestServer {
   public id: string;
@@ -10,20 +13,22 @@ export default class TestServer {
   private server?: ChildProcess;
   private static instances: Set<TestServer> = new Set();
   private static cleanupSetup = false;
+  private static templateDbName: string | null = null;
+  private static templateReady = false;
 
   constructor(id: string) {
     this.id = id.replace("-", "_");
     this.port = 0;
     this.dbName = "iodome_test";
-    this.cmd = process.env.CI ? "start" : "dev";
+    this.cmd = process.env.CI || process.env.IODOME_BUILD ? "start" : "dev";
     TestServer.instances.add(this);
     this.setupGlobalCleanup();
   }
 
   async setup() {
     this.port = await this.getFreePort();
-    this.setupDb();
-    this.log(`Starting server for test ${this.id} on port ${this.port}`);
+    await this.setupDb();
+    Logger.log(`Starting server for test ${this.id} on port ${this.port}`);
 
     this.server = spawn("pnpm", [this.cmd], {
       env: {
@@ -32,12 +37,12 @@ export default class TestServer {
         PORT: this.port.toString(),
       },
       stdio: "ignore",
-      detached: process.platform !== "win32", // Create new process group on Unix
+      detached: process.platform !== "win32",
     });
 
-    this.log(`Server process ${this.server.pid} started for test ${this.id}`);
+    Logger.log(`Server process ${this.server.pid} started for test ${this.id}`);
     await this.waitForServerReady(this.port);
-    this.log(`Server ready for test ${this.id}`);
+    Logger.log(`Server ready for test ${this.id}`);
   }
 
   private setupGlobalCleanup() {
@@ -49,7 +54,7 @@ export default class TestServer {
     const cleanup = () => {
       const instanceCount = TestServer.instances.size;
       if (instanceCount > 0) {
-        this.log(
+        Logger.log(
           `Cleaning up ${instanceCount} test server${
             instanceCount === 1 ? "" : "s"
           }...`
@@ -85,7 +90,7 @@ export default class TestServer {
     TestServer.instances.delete(this);
 
     if (this.server && !this.server.killed) {
-      this.log(`Killing server process ${this.server.pid}`);
+      Logger.log(`Killing server process ${this.server.pid}`);
       try {
         if (this.server.pid) {
           process.kill(-this.server.pid, "SIGTERM");
@@ -133,52 +138,62 @@ export default class TestServer {
     });
   }
 
-  private setupDb() {
-    this.log(`Creating test database: ${this.name}`);
-    execSync(
-      `
-			psql -U postgres -c "
-				SELECT pg_terminate_backend(pid)
-				FROM pg_stat_activity
-				WHERE datname = '${this.name}' AND pid <> pg_backend_pid();
-			"
-		`,
-      { stdio: "ignore" }
-    );
-    execSync(`psql -U postgres -c "DROP DATABASE IF EXISTS ${this.name}"`, {
-      stdio: "ignore",
-    });
-    execSync(`psql -U postgres -c "CREATE DATABASE ${this.name}"`, {
-      stdio: "ignore",
-    });
-    this.log(`Running Prisma migrations for ${this.name}`);
-    execSync(
-      `DATABASE_URL=${this.url} pnpm prisma db push --accept-data-loss`,
-      { stdio: "ignore" }
-    );
-    this.log(`Database setup complete for ${this.name}`);
+  private static getTemplateDbNameCached(): string {
+    if (TestServer.templateDbName) {
+      return TestServer.templateDbName;
+    }
+    TestServer.templateDbName = getTemplateDbName();
+    return TestServer.templateDbName;
+  }
+
+  private static checkTemplateExists(): boolean {
+    if (TestServer.templateReady) {
+      return true;
+    }
+
+    const templateName = TestServer.getTemplateDbNameCached();
+    try {
+      TestServer.templateReady =
+        PostgresClient.checkIfTemplateExists(templateName);
+      return TestServer.templateReady;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  private async setupDb() {
+    PostgresClient.disconnectAllConnections(this.name);
+    PostgresClient.dropDatabaseIfExists(this.name);
+    const hasTemplate = TestServer.checkTemplateExists();
+
+    Logger.log(`
+      Template exists: ${hasTemplate},
+      template name: ${TestServer.templateDbName}
+      `);
+
+    if (hasTemplate && TestServer.templateDbName) {
+      try {
+        PostgresClient.createDatabaseFromTemplate(
+          this.name,
+          TestServer.templateDbName
+        );
+      } catch (e) {
+        Logger.log(`Template creation failed, falling back to regular setup`);
+        PostgresClient.createDatabase(this.name, this.url);
+      }
+    } else {
+      PostgresClient.createDatabase(this.name, this.url);
+    }
+
+    Logger.log(`Database setup complete for ${this.name}`);
   }
 
   private cleanupDb() {
     try {
-      execSync(
-        `
-        psql -U postgres -c "
-          SELECT pg_terminate_backend(pid)
-          FROM pg_stat_activity
-          WHERE datname = '${this.name}' AND pid <> pg_backend_pid();
-        "
-      `,
-        { stdio: "ignore" }
-      );
-      execSync(`psql -U postgres -c "DROP DATABASE IF EXISTS ${this.name}"`, {
-        stdio: "ignore",
-      });
-      this.log(`Dropped test database: ${this.name}`);
+      PostgresClient.disconnectAllConnections(this.name);
+      PostgresClient.dropDatabaseIfExists(this.name);
     } catch (e) {
-      if (process.env.DEBUG_IODOME) {
-        console.warn(`Failed to drop test database ${this.name}:`, e);
-      }
+      Logger.warn(`Failed to drop test database ${this.name}:`, e);
     }
   }
 
@@ -212,11 +227,5 @@ export default class TestServer {
 
       check();
     });
-  }
-
-  private log(message: any) {
-    if (process.env.DEBUG_IODOME) {
-      console.log(message);
-    }
   }
 }
