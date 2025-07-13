@@ -9,14 +9,19 @@ export default defineConfig([
     clean: true,
     outDir: "dist",
   },
-
-  // Playwright bundle
+  // Playwright utilities bundle
   {
     entry: ["src/playwright/index.ts"],
     format: ["esm"],
     dts: true,
     outDir: "dist/playwright",
-    bundle: true, // This resolves all imports
-    external: ["@playwright/test", "@prisma/client"], // Keep peer deps external
+    bundle: true,
+    external: [
+      "@playwright/test",
+      "@prisma/client",
+      "child_process",
+      "node:child_process",
+      "node:process",
+    ],
   },
 ]);
