@@ -1,4 +1,5 @@
 import { createTestFixtures } from "./fixtures";
+import { createTemplateDatabase } from "./setup";
 import { dropDatabases } from "./teardown";
 
-export { createTestFixtures, dropDatabases };
+export { createTestFixtures, createTemplateDatabase, dropDatabases };

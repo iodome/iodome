@@ -1,6 +1,7 @@
 import { ChildProcess, execSync, spawn } from "child_process";
 import http from "http";
 import * as net from "net";
+import { getTemplateDbName } from "./utils";
 
 export default class TestServer {
   public id: string;
@@ -10,6 +11,8 @@ export default class TestServer {
   private server?: ChildProcess;
   private static instances: Set<TestServer> = new Set();
   private static cleanupSetup = false;
+  private static templateDbName: string | null = null;
+  private static templateReady = false;
 
   constructor(id: string) {
     this.id = id.replace("-", "_");
@@ -22,7 +25,7 @@ export default class TestServer {
 
   async setup() {
     this.port = await this.getFreePort();
-    this.setupDb();
+    await this.setupDb();
     this.log(`Starting server for test ${this.id} on port ${this.port}`);
 
     this.server = spawn("pnpm", [this.cmd], {
@@ -58,6 +61,7 @@ export default class TestServer {
       TestServer.instances.forEach((instance) => {
         instance.cleanup();
       });
+      // Don't clean up template database - it should persist for reuse
     };
 
     process.once("SIGINT", () => {
@@ -133,29 +137,110 @@ export default class TestServer {
     });
   }
 
-  private setupDb() {
+  private static getTemplateDbNameCached(): string {
+    if (TestServer.templateDbName) {
+      return TestServer.templateDbName;
+    }
+    TestServer.templateDbName = getTemplateDbName();
+    return TestServer.templateDbName;
+  }
+
+  private static checkTemplateExists(): boolean {
+    if (TestServer.templateReady) {
+      return true;
+    }
+
+    const templateName = TestServer.getTemplateDbNameCached();
+    try {
+      const result = execSync(
+        `psql -U postgres -tA -c "SELECT 1 FROM pg_database WHERE datname='${templateName}'"`,
+        { encoding: "utf8", stdio: "pipe" }
+      )
+        .toString()
+        .trim();
+      TestServer.templateReady = result.includes("1");
+      return TestServer.templateReady;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  private static cleanupTemplateDb() {
+    if (!TestServer.templateDbName || !TestServer.templateReady) {
+      return;
+    }
+
+    try {
+      execSync(
+        `psql -U postgres -c "DROP DATABASE IF EXISTS ${TestServer.templateDbName}"`,
+        { stdio: "ignore" }
+      );
+      TestServer.log(`Dropped template database: ${TestServer.templateDbName}`);
+    } catch (e) {
+      // Ignore errors during cleanup
+    }
+  }
+
+
+  private async setupDb() {
     this.log(`Creating test database: ${this.name}`);
+
+    // Terminate existing connections
     execSync(
       `
-			psql -U postgres -c "
-				SELECT pg_terminate_backend(pid)
-				FROM pg_stat_activity
-				WHERE datname = '${this.name}' AND pid <> pg_backend_pid();
-			"
-		`,
+      psql -U postgres -c "
+        SELECT pg_terminate_backend(pid)
+        FROM pg_stat_activity
+        WHERE datname = '${this.name}' AND pid <> pg_backend_pid();
+      "
+    `,
       { stdio: "ignore" }
     );
+
+    // Drop if exists
     execSync(`psql -U postgres -c "DROP DATABASE IF EXISTS ${this.name}"`, {
       stdio: "ignore",
     });
-    execSync(`psql -U postgres -c "CREATE DATABASE ${this.name}"`, {
-      stdio: "ignore",
-    });
-    this.log(`Running Prisma migrations for ${this.name}`);
-    execSync(
-      `DATABASE_URL=${this.url} pnpm prisma db push --accept-data-loss`,
-      { stdio: "ignore" }
-    );
+
+    // Check if template database exists (created in global setup)
+    const hasTemplate = TestServer.checkTemplateExists();
+
+    if (process.env.DEBUG_IODOME) {
+      this.log(`Template exists: ${hasTemplate}, template name: ${TestServer.templateDbName}`);
+    }
+
+    if (hasTemplate && TestServer.templateDbName) {
+      // Create from template (fast!)
+      this.log(`Creating database from template for ${this.name}`);
+      try {
+        execSync(
+          `psql -U postgres -c "CREATE DATABASE ${this.name} TEMPLATE ${TestServer.templateDbName}"`,
+          { stdio: "ignore" }
+        );
+        this.log(`Database created from template for ${this.name}`);
+      } catch (e) {
+        // Template might be in use or corrupted, fall back
+        this.log(`Template creation failed, falling back to regular setup`);
+        execSync(`psql -U postgres -c "CREATE DATABASE ${this.name}"`, {
+          stdio: "ignore",
+        });
+        execSync(
+          `DATABASE_URL=${this.url} pnpm prisma db push --accept-data-loss`,
+          { stdio: "ignore" }
+        );
+      }
+    } else {
+      // Fallback to regular setup
+      execSync(`psql -U postgres -c "CREATE DATABASE ${this.name}"`, {
+        stdio: "ignore",
+      });
+      this.log(`Running Prisma migrations for ${this.name}`);
+      execSync(
+        `DATABASE_URL=${this.url} pnpm prisma db push --accept-data-loss`,
+        { stdio: "ignore" }
+      );
+    }
+
     this.log(`Database setup complete for ${this.name}`);
   }
 
@@ -212,6 +297,12 @@ export default class TestServer {
 
       check();
     });
+  }
+
+  private static log(message: any) {
+    if (process.env.DEBUG_IODOME) {
+      console.log(message);
+    }
   }
 
   private log(message: any) {
