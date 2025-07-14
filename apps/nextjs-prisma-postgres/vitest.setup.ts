@@ -1,4 +1,4 @@
 import prisma from "@/prisma/db";
-import { useTransactions } from "@iodome/prisma";
+import { useTransactions } from "@iodome/prisma/vitest";
 
 useTransactions(prisma);

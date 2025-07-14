@@ -2,8 +2,8 @@
 import { defineConfig } from "tsup";
 
 export default defineConfig({
-  entry: ["src/index.ts"], // re-exports everything
-  format: ["esm"],
+  entry: ["src/playwright/index.ts", "src/vitest/index.ts"],
+  format: ["cjs", "esm"],
   dts: true,
   clean: true,
   outDir: "dist",
