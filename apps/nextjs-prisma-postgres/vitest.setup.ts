@@ -1,4 +1,4 @@
 import prisma from "@/prisma/db";
-import { useTransactions } from "@iodome/prisma/vitest";
+import { wrapTestsInTransactions } from "@iodome/prisma/vitest";
 
-useTransactions(prisma);
+wrapTestsInTransactions(prisma);

@@ -1,6 +1,6 @@
 import { afterEach, beforeEach } from "vitest";
 
-function useTransactions<
+function wrapTestsInTransactions<
   T extends { $queryRaw: (query: TemplateStringsArray) => Promise<any> }
 >(prisma: T) {
   beforeEach(async () => {
@@ -12,4 +12,4 @@ function useTransactions<
   });
 }
 
-export { useTransactions };
+export { wrapTestsInTransactions };
