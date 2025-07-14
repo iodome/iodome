@@ -10,14 +10,14 @@
   ],
   "exports": {
     "./playwright": {
+      "require": "./dist/playwright/index.cjs",
       "import": "./dist/playwright/index.js",
-      "types": "./dist/playwright/index.d.ts",
-      "default": "./dist/playwright/index.js"
+      "types": "./dist/playwright/index.d.ts"
     },
     "./vitest": {
+      "require": "./dist/vitest/index.cjs",
       "import": "./dist/vitest/index.js",
-      "types": "./dist/vitest/index.d.ts",
-      "default": "./dist/vitest/index.js"
+      "types": "./dist/vitest/index.d.ts"
     }
   },
   "scripts": {
