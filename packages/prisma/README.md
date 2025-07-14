@@ -2,7 +2,8 @@
 
 # @iodome/prisma
 
-Prisma utilities for complete test data isolation in Playwright and Vitest. Ensures each test runs with a fresh, isolated database state to prevent test interference and flaky tests.
+Prisma utilities for complete test data isolation support for Postgres in Playwright and Vitest.
+Ensures each test runs with a fresh, isolated database state to prevent test interference and flaky tests.
 
 ## Installation
 
