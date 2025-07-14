@@ -1,5 +1,11 @@
 # @iodome/prisma
 
+## 0.4.0
+
+### Minor Changes
+
+- f4cdbe4: Refactor vitest API to avoid confusion with hooks
+
 ## 0.3.5
 
 ### Patch Changes
