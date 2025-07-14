@@ -1,3 +1,5 @@
+<img width="84" height="78" alt="iodome-logo-3" src="https://github.com/user-attachments/assets/69aacbd2-6305-4fac-a842-22637d8b0439" />
+
 # @iodome/prisma
 
 Prisma utilities for complete test data isolation in Playwright and Vitest. Ensures each test runs with a fresh, isolated database state to prevent test interference and flaky tests.
