@@ -1,3 +1,5 @@
+<img width="333" height="312" alt="a spherical terrarium with a a few trees and pushes" src="https://github.com/user-attachments/assets/020a313c-852c-4b6e-824c-197728a7248e" />
+
 # iodome
 
 A monorepo for iodome packages focused on test data isolation.
