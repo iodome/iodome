@@ -1,5 +1,11 @@
 # @iodome/prisma
 
+## 0.3.5
+
+### Patch Changes
+
+- a5bb596: Support cjs properly (weeeee hope)
+
 ## 0.3.4
 
 ### Patch Changes
