@@ -1,5 +1,11 @@
 # @iodome/prisma
 
+## 0.3.4
+
+### Patch Changes
+
+- 7c4b4b7: Try again...
+
 ## 0.3.3
 
 ### Patch Changes
