@@ -1,5 +1,11 @@
 # @iodome/prisma
 
+## 0.4.1
+
+### Patch Changes
+
+- Update repo location
+
 ## 0.4.0
 
 ### Minor Changes
