@@ -13,8 +13,8 @@ import { defineConfig, devices } from "@playwright/test";
  */
 export default defineConfig({
   testDir: "./tests/e2e",
-  globalSetup: "./tests/e2e/global.setup.ts",
-  globalTeardown: "./tests/e2e/global.teardown.ts",
+  globalSetup: require.resolve("@iodome/prisma/playwright/global-setup"),
+  globalTeardown: require.resolve("@iodome/prisma/playwright/global-teardown"),
   timeout: 5000,
   /* Run tests in files in parallel */
   fullyParallel: true,

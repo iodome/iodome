@@ -5,8 +5,10 @@ export default class PostgresClient {
   static checkIfPostgresExists() {
     try {
       execSync("psql -U postgres -c 'SELECT 1'", { stdio: "ignore" });
+      Logger.log("PostgreSQL detected, proceeding with template creation");
       return true;
     } catch (e) {
+      Logger.log("PostgreSQL not available, skipping template creation");
       return false;
     }
   }
