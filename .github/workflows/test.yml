@@ -66,7 +66,7 @@ jobs:
       - name: Get Playwright version
         working-directory: apps/nextjs-prisma-postgres
         id: playwright-version
-        run: echo "PLAYWRIGHT_VERSION=$(pnpm list @playwright/test --depth=0 --json | jq -r '.dependencies["@playwright/test"].version')" >> $GITHUB_OUTPUT
+        run: echo "PLAYWRIGHT_VERSION=$(pnpm exec playwright --version)" >> $GITHUB_OUTPUT
 
       - name: Cache Playwright browsers
         uses: actions/cache@v4
