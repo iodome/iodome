@@ -8,7 +8,6 @@
     "build": "pnpm -r build",
     "test": "pnpm -r test",
     "test:e2e": "pnpm -r test:e2e",
-    "test:e2e:ci": "pnpm -r test:e2e:ci",
     "lint": "pnpm -r lint",
     "dev": "pnpm -r dev",
     "start": "pnpm -r start"

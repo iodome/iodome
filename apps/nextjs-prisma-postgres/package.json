@@ -11,7 +11,6 @@
     "test": "vitest",
     "test:e2e": "IODOME_BUILD=true playwright test",
     "test:e2e:ui": "IODOME_BUILD=true test --ui",
-    "test:e2e:ci": "playwright test",
     "db:migrate": "prisma migrate dev"
   },
   "dependencies": {
