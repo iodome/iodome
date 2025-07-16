@@ -79,11 +79,6 @@ jobs:
         working-directory: apps/nextjs-prisma-postgres
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: pnpm exec playwright install --with-deps
-      
-      - name: Install Playwright system dependencies only
-        working-directory: apps/nextjs-prisma-postgres
-        if: steps.playwright-cache.outputs.cache-hit == 'true'
-        run: sudo pnpm exec playwright install-deps webkit
 
       - name: Run Vitest tests
         env:
