@@ -2,8 +2,7 @@
   "name": "nextjs-prisma-postgres",
   "version": "0.1.0",
   "license": "MIT",
-  "private": "true",
-  "type": "module",
+  "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
@@ -12,6 +11,7 @@
     "test": "vitest",
     "test:e2e": "IODOME_BUILD=true playwright test",
     "test:e2e:ui": "IODOME_BUILD=true test --ui",
+    "test:e2e:ci": "playwright test",
     "db:migrate": "prisma migrate dev"
   },
   "dependencies": {
