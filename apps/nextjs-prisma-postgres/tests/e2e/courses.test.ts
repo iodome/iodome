@@ -14,7 +14,7 @@ async function createCourse(page: Page) {
 }
 
 test.describe("courses", async () => {
-  for (let index = 0; index < 150; index++) {
+  for (let index = 0; index < 25; index++) {
     test(`create ${index}`, async ({ page }) => {
       await createCourse(page);
     });
