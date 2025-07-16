@@ -45,12 +45,6 @@ jobs:
         working-directory: apps/nextjs-prisma-postgres
         run: pnpm exec prisma generate
 
-      - name: Setup database schema
-        working-directory: apps/nextjs-prisma-postgres
-        env:
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
-        run: pnpm exec prisma db push
-
       - name: Cache Next.js build
         uses: actions/cache@v4
         with:
@@ -59,6 +53,12 @@ jobs:
           key: ${{ runner.os }}-nextjs-${{ hashFiles('apps/*/package.json') }}-${{ hashFiles('apps/**/*.[jt]s', 'apps/**/*.[jt]sx') }}
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('apps/*/package.json') }}-
+
+      - name: Setup database schema
+        working-directory: apps/nextjs-prisma-postgres
+        env:
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
+        run: pnpm exec prisma db push
 
       - name: Build packages
         run: pnpm build
