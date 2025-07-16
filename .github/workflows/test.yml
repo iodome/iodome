@@ -42,7 +42,8 @@ jobs:
         run: pnpm install
 
       - name: Generate Prisma client
-        run: pnpm -r exec prisma generate
+        working-directory: apps/nextjs-prisma-postgres
+        run: pnpm exec prisma generate
 
       - name: Cache Next.js build
         uses: actions/cache@v4
