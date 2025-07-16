@@ -88,6 +88,10 @@ jobs:
       - name: Run Playwright tests
         env:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
+          PGHOST: localhost
+          PGPORT: 5432
+          PGUSER: postgres
+          PGPASSWORD: postgres
         run: pnpm test:e2e
 
       - name: Upload Playwright report
