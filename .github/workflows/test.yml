@@ -59,6 +59,7 @@ jobs:
         run: pnpm build
 
       - name: Install Playwright browsers
+        working-directory: apps/nextjs-prisma-postgres
         run: pnpm exec playwright install --with-deps
 
       - name: Run Vitest tests
