@@ -2,11 +2,13 @@
   "name": "iodome",
   "version": "0.0.1",
   "description": "",
+  "private": true,
   "main": "index.js",
   "scripts": {
     "build": "pnpm -r build",
     "test": "pnpm -r test",
     "test:e2e": "pnpm -r test:e2e",
+    "lint": "pnpm -r lint",
     "dev": "pnpm -r dev",
     "start": "pnpm -r start"
   },
