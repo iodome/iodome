@@ -37,13 +37,41 @@ import { createTestFixtures } from "@iodome/prisma/playwright";
 export const test = createTestFixtures(PrismaClient);
 ```
 
-#### 2. Set up global hooks
+#### 2. Configure Playwright
+
+```typescript
+// playwright.config.ts
+export default defineConfig({
+  globalSetup: require.resolve("@iodome/prisma/playwright/global-setup"),
+  globalTeardown: require.resolve("@iodome/prisma/playwright/global-teardown"),
+  // ...
+});
+```
+
+**For ESM projects** (with `"type": "module"` in package.json):
+
+```typescript
+// playwright.config.ts
+export default defineConfig({
+  globalSetup: "@iodome/prisma/playwright/global-setup.cjs",
+  globalTeardown: "@iodome/prisma/playwright/global-teardown.cjs",
+  // ...
+});
+```
+
+That's it! The global setup and teardown are handled automatically.
+
+**Alternative: Custom setup/teardown**
+
+If you need custom setup logic, you can create your own files:
 
 ```typescript
 // global.setup.ts
 import { createTemplateDatabase } from "@iodome/prisma/playwright";
 
 export default async function globalSetup() {
+  // Your custom setup logic here
+  
   // Create a template database for faster test initialization
   await createTemplateDatabase();
 }
@@ -56,21 +84,12 @@ import { dropDatabases } from "@iodome/prisma/playwright";
 export default async function globalTeardown() {
   // Clean up all test databases
   await dropDatabases();
+  
+  // Your custom teardown logic here
 }
 ```
 
-#### 3. Configure Playwright
-
-```typescript
-// playwright.config.ts
-export default defineConfig({
-  globalSetup: "./tests/e2e/global.setup.ts", // path to setup file
-  globalTeardown: "./tests/e2e/global.teardown.ts", // path to teardown file
-  // ...
-});
-```
-
-#### 4. Write tests
+#### 3. Write tests
 
 ```typescript
 // tests/example.spec.ts

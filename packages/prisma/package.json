@@ -10,19 +10,32 @@
   ],
   "exports": {
     "./playwright": {
+      "types": "./dist/playwright/index.d.ts",
       "require": "./dist/playwright/index.cjs",
-      "import": "./dist/playwright/index.js",
-      "types": "./dist/playwright/index.d.ts"
+      "import": "./dist/playwright/index.js"
     },
+    "./playwright/global-setup": {
+      "types": "./dist/playwright/global-setup.d.ts",
+      "require": "./dist/playwright/global-setup.cjs",
+      "import": "./dist/playwright/global-setup.js"
+    },
+    "./playwright/global-teardown": {
+      "types": "./dist/playwright/global-teardown.d.ts",
+      "require": "./dist/playwright/global-teardown.cjs",
+      "import": "./dist/playwright/global-teardown.js"
+    },
+    "./playwright/global-setup.cjs": "./dist/playwright/global-setup.cjs",
+    "./playwright/global-teardown.cjs": "./dist/playwright/global-teardown.cjs",
     "./vitest": {
+      "types": "./dist/vitest/index.d.ts",
       "require": "./dist/vitest/index.cjs",
-      "import": "./dist/vitest/index.js",
-      "types": "./dist/vitest/index.d.ts"
+      "import": "./dist/vitest/index.js"
     }
   },
   "scripts": {
     "test": "vitest run",
-    "build": "tsup"
+    "build": "tsup",
+    "lint": "tsc --noEmit"
   },
   "keywords": [],
   "author": "Michael (fundefined)",
