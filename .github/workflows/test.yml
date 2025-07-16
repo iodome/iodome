@@ -75,13 +75,15 @@ jobs:
           path: ~/.cache/ms-playwright
           key: ${{ runner.os }}-playwright-${{ steps.playwright-version.outputs.PLAYWRIGHT_VERSION }}
 
-      - name: Install Playwright system dependencies
-        run: sudo npx playwright install-deps
-      
-      - name: Install Playwright browsers
+      - name: Install Playwright browsers and dependencies
         working-directory: apps/nextjs-prisma-postgres
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: pnpm exec playwright install
+        run: pnpm exec playwright install --with-deps
+      
+      - name: Install Playwright system dependencies only
+        working-directory: apps/nextjs-prisma-postgres
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: sudo pnpm exec playwright install-deps webkit
 
       - name: Run Vitest tests
         env:
