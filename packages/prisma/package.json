@@ -35,7 +35,7 @@
   "scripts": {
     "test": "vitest run",
     "build": "tsup",
-    "lint": "eslint src --ext .ts && tsc --noEmit"
+    "lint": "tsc --noEmit"
   },
   "keywords": [],
   "author": "Michael (fundefined)",
@@ -45,9 +45,6 @@
     "@playwright/test": "^1.54.1",
     "@prisma/client": "^6.11.1",
     "@types/node": "^20.19.7",
-    "@typescript-eslint/eslint-plugin": "^8",
-    "@typescript-eslint/parser": "^8",
-    "eslint": "^9",
     "tsup": "^8.5.0",
     "typescript": "^5.8.3",
     "vitest": "^3.2.4"
