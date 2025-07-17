@@ -1,6 +1,7 @@
 import { createHash } from "crypto";
 import { readFileSync } from "fs";
 import * as path from "path";
+import PostgresClient from "../utils/postgres-client";
 
 export function getSchemaPath(): string {
   // Check for --schema flag in process args
@@ -9,13 +10,13 @@ export function getSchemaPath(): string {
     return path.resolve(process.argv[schemaFlagIndex + 1]);
   }
 
-  // Check PRISMA_SCHEMA_PATH env var
-  if (process.env.PRISMA_SCHEMA_PATH) {
-    return path.resolve(process.env.PRISMA_SCHEMA_PATH);
+  // Check DRIZZLE_SCHEMA_PATH env var
+  if (process.env.DRIZZLE_SCHEMA_PATH) {
+    return path.resolve(process.env.DRIZZLE_SCHEMA_PATH);
   }
 
   // Default location
-  return path.join(process.cwd(), "prisma", "schema.prisma");
+  return path.join(process.cwd(), "db", "schema.ts");
 }
 
 export function getTemplateDbName(): string {

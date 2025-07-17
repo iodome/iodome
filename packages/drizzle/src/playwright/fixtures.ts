@@ -1,4 +1,5 @@
 import { test as base, TestInfo } from "@playwright/test";
+import { drizzle, NodePgDatabase } from "drizzle-orm/node-postgres";
 import TestServer from "../utils/server";
 
 function url(testId: string): string {
@@ -6,10 +7,8 @@ function url(testId: string): string {
   return `postgresql://postgres:postgres@localhost:5432/iodome_test_${id}?schema=public`;
 }
 
-export function createTestFixtures<T>(
-  PrismaClientConstructor: new (config?: any) => T
-) {
-  return base.extend<{ prisma: T }>({
+export function createTestFixtures() {
+  return base.extend<{ db: NodePgDatabase }>({
     baseURL: [
       async ({}, use, testInfo) => {
         const { testId } = testInfo;
@@ -20,14 +19,11 @@ export function createTestFixtures<T>(
       },
       { scope: "test", timeout: 30_000 },
     ],
-    prisma: [
+    db: [
       async ({}, use: any, testInfo: TestInfo) => {
         const { testId } = testInfo;
-        const prisma = new PrismaClientConstructor({
-          datasources: { db: { url: url(testId) } },
-          log: process.env.DEBUG ? ["query", "info", "warn", "error"] : [],
-        });
-        await use(prisma);
+        const db = drizzle(url(testId));
+        await use(db);
       },
       { scope: "test", timeout: 30_000 },
     ],

@@ -1,6 +1,6 @@
 {
-  "name": "@iodome/prisma",
-  "version": "0.4.1",
+  "name": "@iodome/drizzle",
+  "version": "0.0.1",
   "description": "",
   "type": "module",
   "main": "dist/index.js",
@@ -30,7 +30,7 @@
   "packageManager": "pnpm@10.12.4",
   "devDependencies": {
     "@playwright/test": "^1.54.1",
-    "@prisma/client": "^6.11.1",
+    "drizzle-orm": "^0.44.3",
     "@types/node": "^20.19.7",
     "tsup": "^8.5.0",
     "typescript": "^5.8.3",
@@ -38,7 +38,7 @@
   },
   "peerDependencies": {
     "@playwright/test": "^1.54.1",
-    "@prisma/client": "^6.11.1",
+    "drizzle-orm": "^0.44.3",
     "vitest": "^3.2.4"
   },
   "peerDependenciesMeta": {
@@ -55,6 +55,6 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/testdrivendev/iodome.git",
-    "directory": "packages/prisma"
+    "directory": "packages/drizzle"
   }
 }
